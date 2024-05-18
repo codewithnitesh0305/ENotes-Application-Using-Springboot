@@ -12,12 +12,20 @@
 				<div class="col-md-6 offset-md-3">
 					<div class="card-header text-center">
 						<h3>Login Page</h3>
+						<th:block th:if="${param.error}">
+							<p class="text-center text-danger">Invalied email and password</p>
+							<th:block th:text="${@userServiceImp.removeSessionMessage()}"></th:block>
+						</th:block>
+						<th:block th:if="${param.logout}">
+							<p class="text-center text-success">Logout successfully...</p>
+							<th:block th:text="${@userServiceImp.removeSessionMessage()}"></th:block>
+						</th:block>
 					</div>
 					<div class="card-body">
-						<form>
+						<form action="userLogin" method="post">
 							<div class="mb-3">
 								<label for="exampleInputEmail1" class="form-label">Email</label>
-								 <input type="email" class="form-control" name="email" id="exampleInputEmail1" aria-describedby="emailHelp">
+								 <input type="email" class="form-control" name="username" id="exampleInputEmail1" aria-describedby="emailHelp">
 							</div>
 							<div class="mb-3">
 								<label for="exampleInputPassword1" class="form-label">Password</label>
