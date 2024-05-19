@@ -15,12 +15,14 @@ public class UserServiceImp implements UserService{
 
 	@Autowired
 	private UserRepository userRepository;
+	
 	@Autowired
 	private BCryptPasswordEncoder passwordEncoder;
+	
 	@Override
 	public User saveUser(User user) {
 		// TODO Auto-generated method stub
-		user.setRole("USER_ROLE");
+		user.setRole("ROLE_USER");
 		user.setPassword(passwordEncoder.encode(user.getPassword()));
 		return userRepository.save(user);
 	}

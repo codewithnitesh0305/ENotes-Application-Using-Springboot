@@ -1,12 +1,16 @@
 package com.springboot.Controller;
 
+import java.security.Principal;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import com.springboot.Entity.User;
+import com.springboot.Repository.UserRepository;
 import com.springboot.Service.UserServiceImp;
 
 import jakarta.servlet.http.HttpSession;
@@ -16,6 +20,9 @@ public class HomeController {
 
 	@Autowired
 	private UserServiceImp service;
+	
+	
+	
 	
 	@GetMapping("/")
 	public String index() {
@@ -32,20 +39,7 @@ public class HomeController {
 		return "login";
 	}
 	
-	@GetMapping("/addNotes")
-	public String addNotes() {
-		return "add_Notes";
-	}
 	
-	@GetMapping("/editNotes")
-	public String editNotes() {
-		return "edit_Notes";
-	}
-	
-	@GetMapping("viewNotes")
-	public String viewNotes() {
-		return "view_Notes";
-	}
 	
 	@PostMapping("/saveUser")
 	public String saveUser(@ModelAttribute User user, HttpSession session) {
@@ -70,4 +64,6 @@ public class HomeController {
 				
 		return "redirect:/register";
 	}
+	
+	
 }

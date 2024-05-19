@@ -10,18 +10,17 @@ import com.springboot.Entity.User;
 import com.springboot.Repository.UserRepository;
 
 @Service
-public class CustomedUserDetailsService implements UserDetailsService{
+public class CustomeUserService implements UserDetailsService{
 
-	//This class will retrieve user details base on user email
-	
 	@Autowired
 	private UserRepository repository;
+	
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 		// TODO Auto-generated method stub
 		User user = repository.findByEmail(username);
 		if(user == null) {
-			throw new  UsernameNotFoundException("User not found");
+			throw new UsernameNotFoundException("User Not Found");
 		}else {
 			return new CustomeUser(user);
 		}

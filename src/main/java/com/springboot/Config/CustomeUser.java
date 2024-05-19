@@ -20,8 +20,8 @@ public class CustomeUser implements UserDetails{
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
 		// TODO Auto-generated method stub
-		SimpleGrantedAuthority authority = new SimpleGrantedAuthority(user.getRole());
-		return Arrays.asList(authority);
+		SimpleGrantedAuthority grantedAuthority = new SimpleGrantedAuthority(user.getRole());
+		return Arrays.asList(grantedAuthority);
 	}
 
 	@Override
