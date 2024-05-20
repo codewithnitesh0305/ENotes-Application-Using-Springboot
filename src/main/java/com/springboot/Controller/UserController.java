@@ -2,6 +2,7 @@ package com.springboot.Controller;
 
 import java.security.Principal;
 import java.time.LocalDate;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -39,7 +40,11 @@ public class UserController {
 	}
 	
 	@GetMapping("/viewNotes")
-	public String viewNotes() {
+	public String viewNotes(Model model, Principal principal) {
+		User user = getUser(principal, model);
+		List<Notes> notes = notesService.getNotesByUser(user);
+		model.addAttribute("notesList",notes);
+		
 		return "view_Notes";
 	}
 	
