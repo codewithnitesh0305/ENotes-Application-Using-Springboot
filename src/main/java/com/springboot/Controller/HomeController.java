@@ -45,19 +45,15 @@ public class HomeController {
 	public String saveUser(@ModelAttribute User user, HttpSession session) {
 		if(user.getName().equals("") || user.getAddress().equals("") || user.getEmail().equals("") || user.getGender().equals("") || user.getPassword().equals("")) {
 			session.setAttribute("msg", "Please fill all fields...");
-			//System.out.println("Please fill all field");
 		}else {
 			if(service.existtEmail(user.getEmail())) {
 				session.setAttribute("msg", "Email already exist");
-				//System.out.println("Email already exist....");
 			}else {
 				User saveUser = service.saveUser(user);
 				if(saveUser != null) {
 					session.setAttribute("msg", "Register Successfully...");
-					//System.out.println("Register Successfully....");
 				}else {
 					session.setAttribute("msg", "Somethings wrong in server...");
-					//System.out.println("Somethings wrong in server....");
 				}
 			}
 		}

@@ -9,6 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -34,8 +35,10 @@ public class UserController {
 		return "add_Notes";
 	}
 	
-	@GetMapping("/editNotes")
-	public String editNotes() {
+	@GetMapping("/editNotes/{id}")
+	public String editNotes(@PathVariable int id, Model model) {
+		Notes notes = notesService.getNotesById(id);
+		model.addAttribute("notes", notes);
 		return "edit_Notes";
 	}
 	
@@ -58,25 +61,47 @@ public class UserController {
 	}
 	@PostMapping("/saveNotes")
 	public String saveNotes(@ModelAttribute Notes notes, HttpSession session, Principal principal, Model model) {
-		
 		if(notes.getTitle().equals("") || notes.getDescription().equals("") ) {
 			session.setAttribute("msg", "Please fill all fields...");
-			//System.out.println("Please fill all field");
 		}else {
 				notes.setDate(LocalDate.now());
 				notes.setUser(getUser(principal, model));
 				Notes saveNotes = notesService.saveNotes(notes);
 				if(saveNotes != null) {
 					session.setAttribute("msg", "Notes Save Successfully...");
-					//System.out.println("Register Successfully....");
 				}else {
 					session.setAttribute("msg", "Somethings wrong in server...");
-					//System.out.println("Somethings wrong in server....");
 				}
-			}
-		
+			}		
 		return "redirect:/user/addNotes";
 	}
 	
+	@PostMapping("/updateNotes")
+	public String updateNotes(@ModelAttribute Notes notes, HttpSession session, Principal principal, Model model) {
+		if(notes.getTitle().equals("") || notes.getDescription().equals("")) {
+			session.setAttribute("msg", "Please fill all fields...");
+		}else {
+			notes.setDate(LocalDate.now());
+			notes.setUser(getUser(principal, model));
+			Notes updateNotes = notesService.updateNotes(notes);
+			if(updateNotes != null) {
+				session.setAttribute("msg", "Notes update successfully...");
+			}else {
+				session.setAttribute("msg", "Something wrong in server");
+			}
+		}
+		return "redirect:/user/viewNotes";
+	}
+	
+	@GetMapping("/deleteNotes/{id}")
+	public String deleteNotes(@PathVariable int id, HttpSession session) {
+		boolean f = notesService.deleteNotes(id);
+		if(f) {
+			session.setAttribute("msg", "Notes delete successfully...");
+		}else {
+			session.setAttribute("msg", "Something wrong in server");
+		}
+		return "redirect:/user/viewNotes";
+	}
 	
 }

@@ -13,17 +13,22 @@
 						<div class="card">
 							<div class="card-header text-center">
 								<h3>Edit Notes</h3>
+							<th:block th:if=${session.msg}>
+								<p class="fs-5 text-center text-success">[[${session.msg}]]</p>
+								<th:block th:text="${@userServiceImp.removeSessionMessage()}"></th:block>
+							</th:block>
 							</div>
 							<div class="card-body">
-								<form action="#" method="post">
+								<form action="/user/updateNotes" method="post">
 									<div class="md-3">
 										<label>Title</label>
-										<input type="text" name="title" class="form-control">
+										<input type="text" name="title" class="form-control" th:value="${notes.title}">
 									</div>
 									<div class="md-3">
 										<label>Description</label>
-										<textarea rows="6" cols="" name="description" class="form-control"></textarea>
+										<textarea rows="6" cols="" name="description" class="form-control">[[${notes.description}]]</textarea>
 									</div>
+									<input type="hidden" th:value="${notes.id}" name="notesId">
 									<button class="btn btn-primary mt-4">Edit</button>
 								</form>
 							</div>

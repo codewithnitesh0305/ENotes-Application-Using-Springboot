@@ -8,9 +8,13 @@
 	<section>
 		<div class="container-fluid p-2">
 			<h3 class="text-center">View Notes</h3>
+			<th:block th:if=${session.msg}>
+					<p class="fs-5 text-center text-success">[[${session.msg}]]</p>
+					<th:block th:text="${@userServiceImp.removeSessionMessage()}"></th:block>
+			</th:block>
 			<div class="row">
 				<div th:each="notes:${notesList}" class="col-md-10 offset-md-1 mt-2">
-					<div class="card">
+					<div class="card shadow p-3 mb-5 bg-body rounded">
 						<div class="card-body">
 							<div class="text-center">
 								<i class="fa-solid fa-book-open fa-3x"></i>
@@ -19,9 +23,9 @@
 							<p>[[${notes.description}]]</p>
 							<p>Date:- <span class="fw-bold text-success">[[${notes.date}]]</span></p>
 							<div class="text-center">
-								<a href="editNotes" class="btn btn-primary btn-sm"><i class="fa-solid fa-user-pen"></i>
+								<a th:href="@{'editNotes/'+${notes.id}}" class="btn btn-primary btn-sm"><i class="fa-solid fa-user-pen"></i>
 									Edit</a>
-								<a href="delete" class="btn btn-danger btn-sm"><i class="fa-solid fa-trash"></i>
+								<a th:href="@{'deleteNotes/'+${notes.id}}" class="btn btn-danger btn-sm"><i class="fa-solid fa-trash"></i>
 									Delete</a>
 							</div>
 						</div>
