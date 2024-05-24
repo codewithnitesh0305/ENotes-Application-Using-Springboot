@@ -5,6 +5,9 @@ import java.time.LocalDate;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -42,11 +45,17 @@ public class UserController {
 		return "edit_Notes";
 	}
 	
-	@GetMapping("/viewNotes")
-	public String viewNotes(Model model, Principal principal) {
+	@GetMapping("/viewNotes/{page}")
+	public String viewNotes(@PathVariable("page") Integer page ,Model model, Principal principal) {
 		User user = getUser(principal, model);
-		List<Notes> notes = notesService.getNotesByUser(user);
+		
+		Pageable pageable = PageRequest.of(page, 3); 
+		
+		Page<Notes> notes = notesService.getNotesByUser(user,pageable);
 		model.addAttribute("notesList",notes);
+		
+		model.addAttribute("currentPage", page);
+		model.addAttribute("totalPages",notes.getTotalPages());
 		
 		return "view_Notes";
 	}

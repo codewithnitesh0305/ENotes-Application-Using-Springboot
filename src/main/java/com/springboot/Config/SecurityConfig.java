@@ -38,7 +38,7 @@ public class SecurityConfig {
 			.formLogin()
 				.loginPage("/signin")
 				.loginProcessingUrl("/userLogin")
-				.defaultSuccessUrl("/user/viewNotes").permitAll();
+				.defaultSuccessUrl("/user/viewNotes/0").permitAll();
 		
 		return http.build();
 	}

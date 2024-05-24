@@ -3,6 +3,9 @@ package com.springboot.Service;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.springboot.Entity.Notes;
@@ -28,9 +31,9 @@ public class NotesServiceImp implements NotesService{
 	}
 
 	@Override
-	public List<Notes> getNotesByUser(User user) {
-		// TODO Auto-generated method stub
-		return notesRepository.findByUser(user);
+	public Page<Notes> getNotesByUser(User user , Pageable pageable) {
+		// TODO Auto-generated method stub	
+		return notesRepository.findByUser(user, pageable);
 	}
 
 	@Override
