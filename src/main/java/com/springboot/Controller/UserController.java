@@ -1,11 +1,7 @@
 package com.springboot.Controller;
 
-import java.net.http.HttpRequest;
 import java.security.Principal;
 import java.time.LocalDate;
-import java.util.Collections;
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -18,8 +14,6 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-
 import com.springboot.Entity.Notes;
 import com.springboot.Entity.User;
 import com.springboot.Repository.UserRepository;
@@ -50,10 +44,18 @@ public class UserController {
 		return "edit_Notes";
 	}
 	
+	@GetMapping("/readNotes/{id}")
+	public String readNotes(@PathVariable int id, Model model) {
+		Notes notes = notesService.getNotesById(id);
+		model.addAttribute("read", notes);
+		return "read_Notes";
+	}
+	
 	@GetMapping("/viewNotes/{page}")
 	public String viewNotes(@PathVariable("page") Integer page,  Model model, Principal principal) {
 		User user = getUser(principal, model);
-		Pageable pageable = PageRequest.of(page, 3);
+		Sort sort = Sort.by("id").descending();
+		Pageable pageable = PageRequest.of(page, 3,sort);
 
 		Page<Notes> notes = notesService.getNotesByUser(user, pageable);
 

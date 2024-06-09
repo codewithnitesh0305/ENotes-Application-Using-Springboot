@@ -34,6 +34,7 @@ public class NotesServiceImp implements NotesService{
 	@Override
 	public Page<Notes> getNotesByUser(User user , Pageable pageable) {
 		// TODO Auto-generated method stub	
+		
 		return notesRepository.findByUser(user, pageable);
 	}
 
